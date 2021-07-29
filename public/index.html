@@ -1,0 +1,52 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./index.css" />
+    <title>Mayowa Chat</title>
+</head>
+
+<body>
+
+    <h1 class="title">Mayowa Chat</h1>
+    <div class="main">
+        <div class="name">
+            <p>Delowo</p>
+            <input type="text" id="name-input" class="name-input" value="anonymous" />
+        </div>
+        <ul id="message-container" class="message-container">
+            <li class="message-right">
+                <p class="message">
+                    how are you
+                    <span>26 July 10:49</span>
+                </p>
+            </li>
+
+            <li class="message-left">
+                <p class="message">
+                    i am fine thank you
+                    <span>26 July 10:49</span>
+                </p>
+            </li>
+
+            <li class="message-feedback">
+                <p class="feedback" id="feedback">
+                    delowo is typing a message ....
+                </p>
+            </li>
+        </ul>
+
+        <form action="" class="message-form" id="message-form">
+            <input type="text" id="message-input" class="message-input">
+            <button class="btn">send</button>
+        </form>
+    </div>
+    <h3 class="client"></h3>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

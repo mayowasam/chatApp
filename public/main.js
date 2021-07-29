@@ -23,6 +23,7 @@ form.onsubmit = (e) =>{
     socket.emit('sendmessage', data)
     addMessage(true, data)
     input.value =""
+  
 }
 
 socket.on('messagereceive', (data) => {
@@ -39,6 +40,7 @@ socket.on('client-Total', (data) => {
 
 
 const addMessage = (ownMessage, data) => {
+    clearFeedback()
    const element = `
         <li class='${ownMessage ? 'message-right' : 'message-left'}'>
         <p class="message">
@@ -56,23 +58,18 @@ const scollBottom = () => {
 }
 
 input.onfocus = () => {
-    socket.emit('feedback' , {
-        feedback: `${nameInput} is typing a message ....`
-    })
+    socket.emit('feedback' , {feedback: `${nameInput.value} is typing a message ....`})
 }
 
 input.onkeypress = () => {
-    socket.emit('feedback' , {
-        feedback: `${nameInput} is typing a message ....`
-    }) 
+    socket.emit('feedback' , {feedback: `${nameInput.value} is typing a message ....`}) 
 }
 input.onblur = () => {
-    socket.emit('feedback' , {
-        feedback: ''
-    }) 
+    socket.emit('feedback' , {feedback: ''}) 
 }
 
 socket.on('feedback' ,(data) => {
+    clearFeedback()
   const element=`
     <li class="message-feedback">
         <p class="feedback" id="feedback">
@@ -81,5 +78,17 @@ socket.on('feedback' ,(data) => {
     </li>
 `  
 messageContainer.innerHTML+=element
+
 }) 
+
+
+// to clear all feedback elements
+// select all the li tags of message feedback
+
+const  clearFeedback = () => {
+    document.querySelectorAll('li.message-feedback').forEach(element => {
+        console.log(element) 
+       element.parentNode.removeChild(element)
+    })
+}
 

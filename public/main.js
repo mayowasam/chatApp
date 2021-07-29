@@ -7,11 +7,13 @@ const form = document.querySelector('#message-form')
 const input = document.querySelector('#message-input')
 const message = document.querySelector('#message')
 
+const messageTone = new Audio('/messaging.mp3')
 
 
 form.onsubmit = (e) =>{
     e.preventDefault()
     console.log(input.value)
+    if (input.value === '') return
     const data = {
         name: nameInput.value,
         message:  input.value,
@@ -24,6 +26,7 @@ form.onsubmit = (e) =>{
 }
 
 socket.on('messagereceive', (data) => {
+    messageTone.play()
     console.log(data)
       addMessage(false, data)
 })
@@ -45,8 +48,38 @@ const addMessage = (ownMessage, data) => {
         </li>
     `
   messageContainer.innerHTML+=element
+  scollBottom()
 }
 
 const scollBottom = () => {
     messageContainer.scrollTo(0, messageContainer.scrollHeight)
 }
+
+input.onfocus = () => {
+    socket.emit('feedback' , {
+        feedback: `${nameInput} is typing a message ....`
+    })
+}
+
+input.onkeypress = () => {
+    socket.emit('feedback' , {
+        feedback: `${nameInput} is typing a message ....`
+    }) 
+}
+input.onblur = () => {
+    socket.emit('feedback' , {
+        feedback: ''
+    }) 
+}
+
+socket.on('feedback' ,(data) => {
+  const element=`
+    <li class="message-feedback">
+        <p class="feedback" id="feedback">
+        ${data.feedback}
+        </p>
+    </li>
+`  
+messageContainer.innerHTML+=element
+}) 
+

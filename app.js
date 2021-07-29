@@ -22,6 +22,10 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('messagereceive', message)
     })
 
+    socket.on('feedback', message => {
+        socket.broadcast.emit('feedback', message)
+    })
+
 
     socket.on('disconnect' , () => {
         console.log('user is disconnected')
